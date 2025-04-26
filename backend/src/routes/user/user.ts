@@ -1,34 +1,34 @@
 import { FastifyInstance } from "fastify";
-import * as userCrud from "./handlers";
+import * as handler from "./handlers";
 import * as val from "./val";
 
 const route = async (fastify: FastifyInstance) => {
-  fastify.post("/login", { schema: val.create }, userCrud.login);
-  fastify.get("/getAll", { preHandler: fastify.authenticate }, userCrud.getAll);
+  fastify.post("/login", { schema: val.create }, handler.login);
+  fastify.get("/getAll", { preHandler: fastify.authenticate }, handler.getAll);
   fastify.get(
     "/getById/:id",
     { preHandler: fastify.authenticate },
-    userCrud.getById
+    handler.getById
   );
   fastify.post(
     "/create",
-    { preHandler: fastify.authenticate, schema: val.create },
-    userCrud.create
+    {  schema: val.create },
+    handler.create
   );
   fastify.patch(
     "/patch/:id",
     { preHandler: fastify.authenticate, schema: val.update },
-    userCrud.patchById
+    handler.patchById
   );
   fastify.patch(
     "/patch/password/:id",
     { preHandler: fastify.authenticate, schema: val.updatePassword },
-    userCrud.patchPassowrdById
+    handler.patchPassowrdById
   );
   fastify.delete(
     "/delete/:id",
     { preHandler: fastify.authenticate },
-    userCrud.deleteById
+    handler.deleteById
   );
 };
 

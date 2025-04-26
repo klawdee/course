@@ -1,4 +1,4 @@
-import { Optional } from "sequelize"
+import * as appTypes from '../types/types'
 
 export type paramsId = {
     id: number
@@ -11,30 +11,21 @@ export interface user  {
     id?: number
     email: string
     name: string
-    password?: string
+    password_hash?: string
 }
 
 export type userUpdatePassword = {
     password: string
 }
 
-export interface userCreation extends user{}
-
-export interface todoList {
-    id?: number
-    user_id?: number
-    topic: string
+export interface userCreationAttributes extends Omit<user, 'password_hash'> {
+    password_hash: string
 }
 
-export interface todoListCreation extends todoList{}
-
-
-export interface todoItem {
-    id: number
-    todo_list_id: number
-    text: string
-    done: boolean
+export interface permissionAttributes {
+  id: number;
+  userId: number;
+  body: appTypes.role;
 }
 
-
-export interface todoItemCreation extends Optional<todoItem, 'id'>{}
+export interface permissionCreationAttributes extends Partial<permissionAttributes> {}

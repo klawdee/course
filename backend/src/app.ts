@@ -6,7 +6,8 @@ const port = 3000
 const start = async () => {
     try {
         await db.authenticate()
-        await db.sync()
+        await db.sync({ force: true })
+        app.log.info(`Database synchronized successfully`)
 
         await app.listen({port: port})
         app.log.info(`Server listening on http://localhost:` + port)

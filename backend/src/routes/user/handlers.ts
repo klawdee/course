@@ -13,7 +13,7 @@ export const login =  async (request: FastifyRequest, reply: FastifyReply) => {
     };
 
     const user = await dbModel.user.findOne({
-      where: { email: email, name: name, password: password },
+      where: { email: email, name: name, password_hash: password },
     });
 
     if (user) {
@@ -25,13 +25,19 @@ export const login =  async (request: FastifyRequest, reply: FastifyReply) => {
     }
 }
 
-export const create = async (request: FastifyRequest, reply: FastifyReply) => {
-    const { name, email, password } = request.body as dbType.user
+interface user {
+    email: string,
+    name: string,
+    password: string
+}
 
-    let user: dbType.user = {
+export const create = async (request: FastifyRequest, reply: FastifyReply) => {
+    const { name, email, password } = request.body as user 
+
+    let user: dbType.userCreationAttributes = {
         email: email,
         name: name,
-        password: password
+        password_hash: password
     }
 
     await dbModel.user.create(user)
@@ -56,14 +62,14 @@ export const patchPassowrdById = async (request: FastifyRequest, reply: FastifyR
     const { id } = request.params as dbType.paramsId
     const { password } = request.body as dbType.userUpdatePassword
 
-    await dbModel.user.update({ password }, { where: { id: id } })
+    await dbModel.user.update({ password_hash: password }, { where: { id: id } })
     
     reply.send({ message: "user was successfully updated"}).code(200)
     
 }
 
 export const getAll = async (request: FastifyRequest, reply: FastifyReply) => {
-    let users: Model<dbType.user, dbType.userCreation>[] | null = await dbModel.user.findAll()
+    let users: Model<dbType.user, dbType.userCreationAttributes>[] | null = await dbModel.user.findAll()
 
     reply.send({users: users}).code(200)
 }
@@ -71,7 +77,7 @@ export const getAll = async (request: FastifyRequest, reply: FastifyReply) => {
 export const getById = async (request: FastifyRequest, reply: FastifyReply) => {
     const { id } = request.params as dbType.paramsId
 
-    let user: Model<dbType.user, dbType.userCreation> | null = await dbModel.user.findByPk(id)
+    let user: Model<dbType.user, dbType.userCreationAttributes> | null = await dbModel.user.findByPk(id)
     if (!user) {
         reply.send({ message: "not found"}).code(404)
     }
