@@ -1,0 +1,28 @@
+{
+  "name": "todo-app-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "types": "./src/types/global.d.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node ./dist/app.js",
+    "dev": "npx ts-node ./src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@fastify/auth": "^5.0.2",
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/jwt": "^9.1.0",
+    "fastify": "^5.2.2",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}
